@@ -1,0 +1,9 @@
+.edit {
+  display: none;
+}
+.editing .edit {
+  display: block;
+}
+.editing .label {
+  display: none;
+}
