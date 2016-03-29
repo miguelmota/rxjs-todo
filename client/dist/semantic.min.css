@@ -20263,22 +20263,3 @@ html.ios, html.ios body {
   75% {
     -webkit-transform: scale3d(1.05, 0.95, 1);
     transform: scale3d(1.05, 0.95, 1); } }
-
-#app {
-  padding: 50px 0; }
-
-.label .ui.input input {
-  border: none;
-  pointer-events: none; }
-
-.main {
-  padding-bottom: 20px; }
-
-.edit {
-  display: none; }
-
-.editing .edit {
-  display: block; }
-
-.editing .label {
-  display: none; }

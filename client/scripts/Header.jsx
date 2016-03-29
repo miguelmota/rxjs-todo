@@ -31,11 +31,13 @@ export function Header({createEventHandler}) {
   handleSubmit$.map(() => '').subscribe(displayValue$);
 
   return (
-    <header>
-      <h1>Yolk Todo App</h1>
-      <form onSubmit={handleSubmit$}>
-        <input placeholder="Enter todo..." autoFocus={true} onChange={handleChange$} value={displayValue$} />
-        <button onClick={handleSubmit$} type="submit">Add</button>
+    <header className="ui header row">
+      <h1 className="ui"><i className="icon list layout"></i> Todos</h1>
+      <form onSubmit={handleSubmit$} className="ui">
+        <div className="ui action fluid input">
+          <input placeholder="What to do?" autoFocus={true} onChange={handleChange$} value={displayValue$} />
+          <button onClick={handleSubmit$} type="submit" className="ui green button"><i className="icon add circle"></i> Add</button>
+        </div>
       </form>
     </header>
   );

@@ -13,7 +13,7 @@ export function Main({props}) {
   const {todos} = props;
 
   return (
-    <main>
+    <main className="main">
       <TodoList todos={todos} />
     </main>
   );

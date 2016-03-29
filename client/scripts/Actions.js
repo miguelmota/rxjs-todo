@@ -6,7 +6,7 @@ import RxDOM from 'rx-dom';
 
 import {KeyConstants} from './State';
 import {createTodo, createTodoFromObject} from './utils/createTodo';
-import {isUniqueTodo} from './utils/isUniqueTodo';
+import {isTodoUnique} from './utils/isTodoUnique';
 import {API_Endpoints} from './constants/ApiEndpoints';
 
 /**

@@ -19,6 +19,8 @@ export function TodoList({props}) {
       .map(todo => <TodoItem todo={todo} key={todo.get('id')} />));
 
   return (
-    <ul>{todoItems}</ul>
+    <div className="ui segments row">
+      {todoItems}
+    </div>
   );
 }

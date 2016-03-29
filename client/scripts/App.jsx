@@ -20,7 +20,7 @@ export function App({props, createEventHandler}) {
   Actions.fetchTodos$.forEach(todo$ => todo$.subscribe(t$=> t$.subscribe(Actions.loadTodo$)));
 
   return (
-    <div>
+    <div className="ui container">
       <Header />
       <Main todos={todos} />
       <Footer todos={todos} />

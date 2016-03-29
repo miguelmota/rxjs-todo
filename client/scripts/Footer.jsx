@@ -12,6 +12,7 @@ import RxDOM from 'rx-dom';
 export function Footer({props, createEventHandler}) {
   const {todos} = props;
   const handleSave$ = createEventHandler();
+  const isSaving$ = new Rx.BehaviorSubject(false);
 
   handleSave$
   .withLatestFrom(todos, (handleDave, todos) => {
@@ -37,6 +38,8 @@ export function Footer({props, createEventHandler}) {
     .subscribe(xhr => {
       const {response} = xhr;
       console.log('DATA', response);
+
+      isSaving$.onNext(false);
 
       if (response.error) {
         console.error(response.error);
@@ -66,9 +69,22 @@ export function Footer({props, createEventHandler}) {
     });
   });
 
+  // Set loading state when saving.
+  handleSave$
+  .map(() => true)
+  .subscribe(isSaving$);
+
+  const classNames = [
+    isSaving$.map(ok => ok ? `loading` : ``),
+    'ui',
+    'primary',
+    'large',
+    'button'
+  ];
+
   return (
-    <footer>
-      <button onClick={handleSave$}>Save</button>
+    <footer className="ui row">
+      <button onClick={handleSave$} className={classNames}><i className="icon save"></i> Save</button>
     </footer>
   );
 }
