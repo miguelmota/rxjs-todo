@@ -4,18 +4,18 @@ import Rx from 'rx';
 import Immutable from 'immutable';
 import RxDOM from 'rx-dom';
 
-import {KeyConstants} from './State';
-import {createTodo, createTodoFromObject} from './utils/createTodo';
-import {isTodoUnique} from './utils/isTodoUnique';
-import {API_Endpoints} from './constants/ApiEndpoints';
+import {KeyConstants} from '../stores/State';
+import {createTodo, createTodoFromObject} from '../utils/createTodo';
+import {isTodoUnique} from '../utils/isTodoUnique';
+import {API_Endpoints} from '../constants/ApiEndpoints';
 
 /**
- * Actions
+ * TodoActions
  * @desc Enum containing actions for todo items.
  * Rx.Subject represents an object that is both an observable and observer.
  * @type {Object}
  */
-export const Actions = {
+export const TodoActions = {
   /**
    * createTodo$
    * @desc Creates a local todo.
@@ -80,12 +80,12 @@ export const Actions = {
 };
 
   /**
-   * Actions.register
+   * TodoActions.register
    * @desc Register
    * @type {Function}
    * @param {Function} updates
    */
-Actions.register = function (updates) {
+TodoActions.register = function (updates) {
   /**
    * @desc Add new todo to todos.
    */

@@ -2,11 +2,11 @@
 
 import {h, render} from 'yolk';
 
-import {Actions} from './Actions';
-import {State} from './State';
+import {TodoActions} from './actions/TodoActions';
+import {State} from './stores/State';
 import {App} from './App.jsx';
 
 const state = new State();
-Actions.register(state.updates);
+TodoActions.register(state.updates);
 
 render(<App state={state.asObservable} />, document.getElementById('app'));

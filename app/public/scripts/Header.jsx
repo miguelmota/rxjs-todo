@@ -3,7 +3,7 @@
 import {h} from 'yolk';
 import Rx from 'rx';
 
-import {Actions} from './Actions';
+import {TodoActions} from './actions/TodoActions';
 
 /**
  * Header
@@ -23,7 +23,7 @@ export function Header({createEventHandler}) {
   // Filter non-empty values.
   .filter(value => !!value.length)
   // Create todo.
-  .subscribe(Actions.createTodo$);
+  .subscribe(TodoActions.createTodo$);
 
   // Update display value when there is an input change.
   handleChange$.subscribe(displayValue$);
@@ -36,7 +36,9 @@ export function Header({createEventHandler}) {
       <form onSubmit={handleSubmit$} className="ui">
         <div className="ui action fluid input">
           <input placeholder="What to do?" autoFocus={true} onChange={handleChange$} value={displayValue$} />
-          <button onClick={handleSubmit$} type="submit" className="ui green button"><i className="icon add circle"></i> Add</button>
+          <button onClick={handleSubmit$} type="submit" className="ui green button">
+            <i className="icon add circle"></i> Add
+          </button>
         </div>
       </form>
     </header>

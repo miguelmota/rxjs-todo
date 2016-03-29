@@ -3,7 +3,7 @@
 import {h} from 'yolk';
 import Rx from 'rx';
 
-import {Actions} from './Actions';
+import {TodoActions} from './actions/TodoActions';
 import {Header} from './Header.jsx';
 import {Main} from './Main.jsx';
 import {Footer} from './Footer.jsx';
@@ -17,7 +17,10 @@ export function App({props, createEventHandler}) {
   const {state} = props;
   const todos = state.map(s => s.get(`todos`));
 
-  Actions.fetchTodos$.forEach(todo$ => todo$.subscribe(t$=> t$.subscribe(Actions.loadTodo$)));
+  // Fetch todos and add them to the list.
+  TodoActions.fetchTodos$.forEach(todo$ => todo$.subscribe(
+    t$ => t$.subscribe(TodoActions.loadTodo$))
+  );
 
   return (
     <div className="ui container">

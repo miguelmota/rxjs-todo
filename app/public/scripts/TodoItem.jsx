@@ -3,7 +3,7 @@
 import {h} from 'yolk';
 import Rx from 'rx';
 
-import {Actions} from './Actions';
+import {TodoActions} from './actions/TodoActions';
 
 /**
  * TodoItem
@@ -22,7 +22,7 @@ export function TodoItem({props, createEventHandler}) {
   // Mark todo item for deletion on delete button click.
   handleDelete$
   .withLatestFrom(todo, (handleDelete, todo) => todo)
-  .subscribe(Actions.deleteTodo$);
+  .subscribe(TodoActions.deleteTodo$);
 
   // Set editting flat to true on edit button click.
   handleEdit$
@@ -34,7 +34,7 @@ export function TodoItem({props, createEventHandler}) {
   .tap(() => isEditing$.onNext(false))
   .withLatestFrom(todo, handleInputChange$, (handleEdit, todo, newValue) => [todo, newValue])
   .subscribe(value => {
-    return Actions.updateTodo$.onNext(value);
+    return TodoActions.updateTodo$.onNext(value);
   });
 
   // Set class names for when in editing state.
@@ -49,15 +49,21 @@ export function TodoItem({props, createEventHandler}) {
       <section className="edit">
         <div className="ui action fluid input">
           <input type="text" onChange={handleInputChange$} value={task} />
-          <button type="submit" onClick={handleSubmit$} className="ui primary button"><i className="icon check circle"></i> Done</button>
+          <button type="submit" onClick={handleSubmit$} className="ui primary button">
+            <i className="icon check circle"></i> Done
+          </button>
         </div>
       </section>
       <section className="label">
         <div className="ui fluid input">
           <input type="text" value={task} />
           <div className="ui icon basic buttons">
-            <button onClick={handleEdit$} className="left attached ui button"><i className="icon edit"></i> Edit</button>
-            <button onClick={handleDelete$} className="right attached ui button" aria={{label: 'delete'}}><i className="icon remove circle"></i></button>
+            <button onClick={handleEdit$} className="left attached ui button">
+              <i className="icon edit"></i> Edit
+            </button>
+            <button onClick={handleDelete$} className="right attached ui button" aria={{label: 'delete'}}>
+              <i className="icon remove circle"></i>
+            </button>
           </div>
         </div>
       </section>
