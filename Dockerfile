@@ -10,7 +10,7 @@ RUN npm install
 RUN npm install babel-cli -g
 
 # Bundle app source
-COPY ./ /usr/src/app
+COPY ./app/ /usr/src/app
 
 # Expose port
 EXPOSE 8080

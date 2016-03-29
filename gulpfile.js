@@ -13,14 +13,14 @@ const concat = require('gulp-concat');
  */
 gulp.task('scripts', function() {
   return browserify({
-    entries: './src/public/scripts/index.jsx',
+    entries: './app/public/scripts/index.jsx',
     extensions: ['.jsx'],
     debug: true
   })
   .transform('babelify')
   .bundle()
   .pipe(source('app.js'))
-  .pipe(gulp.dest('./src/public/dist'));
+  .pipe(gulp.dest('./app/public/dist'));
 });
 
 /**
@@ -29,7 +29,7 @@ gulp.task('scripts', function() {
 gulp.task('browser', function() {
   browserSync.init({
     server: {
-      baseDir: './src/public'
+      baseDir: './app/public'
     }
   });
 });
@@ -38,9 +38,9 @@ gulp.task('browser', function() {
  * @desc Compile SASS.
  */
 gulp.task('sass', function() {
-  return gulp.src('./src/public/styles/**/*.scss')
+  return gulp.src('./app/public/styles/**/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./src/public/dist'));
+    .pipe(gulp.dest('./app/public/dist'));
 });
 
 /**
@@ -48,17 +48,17 @@ gulp.task('sass', function() {
  */
 gulp.task('move', function() {
   gulp.src([
-    './src/public/assets/themes/default/assets/fonts/*'
-  ], { base: './src/public/assets/themes/default/assets/fonts/' })
-  .pipe(gulp.dest('./src/public/dist/themes/default/assets/fonts/'));
+    './app/public/assets/themes/default/assets/fonts/*'
+  ], { base: './app/public/assets/themes/default/assets/fonts/' })
+  .pipe(gulp.dest('./app/public/dist/themes/default/assets/fonts/'));
 });
 
 /**
  * @desc Watch and compile files.
  */
 gulp.task('watch', function() {
-  gulp.watch('./src/public/scripts/**/*', ['scripts']);
-  gulp.watch('./src/public/styles/**/*.scss', ['sass']);
+  gulp.watch('./app/public/scripts/**/*', ['scripts']);
+  gulp.watch('./app/public/styles/**/*.scss', ['sass']);
 });
 
 gulp.task('build', ['scripts', 'sass', 'move']);
