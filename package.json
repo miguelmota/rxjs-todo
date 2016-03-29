@@ -1,7 +1,7 @@
 {
   "name": "rx-todo-app",
   "version": "0.0.1",
-  "description": "Todo app built on top of Yolk.js, RxJS, Express, Postgres, and Docker.",
+  "description": "A Todo app built on top of Yolk.js, RxJS, Express, Postgres, and Docker.",
   "main": "app/app.js",
   "scripts": {
     "start": "babel-node --presets es2015 ./app/bin/www",
@@ -13,7 +13,12 @@
   },
   "keywords": [
     "todo",
-    "yolk"
+    "yolk",
+    "rxjs",
+    "express",
+    "postgres",
+    "docker",
+    "frp"
   ],
   "author": {
     "name": "Miguel Mota",
