@@ -12,31 +12,53 @@ const app = express();
 const routes = require('./routes/index');
 const todos = require('./routes/todos');
 
-// view engine setup
+/**
+ * @desc View engine setup.
+ */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+/**
+ * @desc Public directory setup.
+ */
+app.use(express.static(path.join(__dirname, 'public')));
+
+/**
+ * @desc Enable logging on development environment.
+ */
 app.use(logger('dev'));
+
+/**
+ * @desc Enable logging on development environment.
+ */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+/**
+ * @desc Enable Cross origin resource sharing.
+ */
 app.use(cors());
 
+/**
+ * @desc Set up base routes.
+ */
 app.use('/', routes);
-app.use('/todos', todos);
+app.use('/api/todos', todos);
 
-// catch 404 and forward to error handler
+/**
+ * @desc Catch 404 and forward to error handler.
+ */
 app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
+/**
+ * @desc Development error handler.
+ * Will print stacktrace.
+ */
 if (app.get('env') === 'development') {
   app.use((err, req, res, next) => {
     res.status(err.status || 500);
@@ -47,8 +69,10 @@ if (app.get('env') === 'development') {
   });
 }
 
-// production error handler
-// no stacktraces leaked to user
+/**
+ * @desc Production error handler.
+ * No stacktraces leaked to user.
+ */
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error', {

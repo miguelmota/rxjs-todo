@@ -4,6 +4,8 @@ import {h} from 'yolk';
 import Rx from 'rx';
 import RxDOM from 'rx-dom';
 
+import {API_Endpoints} from './constants/ApiEndpoints';
+
 /**
  * Footer
  * @desc View containing the footer.
@@ -19,16 +21,12 @@ export function Footer({props, createEventHandler}) {
     return todos.valueSeq().toArray().map(map => map.toObject());
   })
   .subscribe(todos => {
-    const baseUrl = 'http://localhost:8080/';
-    const resource = 'todos';
-    const url = `${baseUrl}${resource}`
-
     console.log(todos);
     const toSaveTodos = todos.filter(todo => !todo.willDelete);
     const toDeleteTodoIds = todos.filter(todo => todo.willDelete).map(todo => todo.id);
 
     Rx.DOM.post({
-      url: url,
+      url: API_Endpoints.TODOS,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -50,7 +48,7 @@ export function Footer({props, createEventHandler}) {
 
     Rx.DOM.ajax({
       method: 'delete',
-      url: url,
+      url: API_Endpoints.TODOS,
       headers: {
         'Content-Type': 'application/json'
       },

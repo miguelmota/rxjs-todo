@@ -7,6 +7,6 @@ const router = express.Router();
 /**
  * GET index route.
  */
-router.get('/', (req, res, next) => res.render('index'));
+router.get('/', (req, res, next) => res.sendFile('./public/index.html'));
 
 module.exports = router;

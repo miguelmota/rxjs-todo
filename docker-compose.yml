@@ -9,12 +9,9 @@ services:
       - db
     links:
       - db
+    env_file: ./lib/postgres.env
   db:
     image: postgres
-    environment:
-      POSTGRES_PASSWORD: docker
-      POSTGRES_USER: docker
-      POSTGRES_DB: postgres
+    env_file: ./lib/postgres.env
     volumes:
-      - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql
-
+      - ./lib/init.sql:/docker-entrypoint-initdb.d/init.sql
