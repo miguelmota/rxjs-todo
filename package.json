@@ -5,7 +5,7 @@
   "main": "app/app.js",
   "scripts": {
     "start": "babel-node --presets es2015 ./app/bin/www",
-    "test": "babel-node ./test/**/*.js"
+    "test": "babel-node ./test/client/index.js && babel-node ./test/server/index.js"
   },
   "repository": {
     "type": "git",

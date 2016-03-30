@@ -117,7 +117,7 @@ export const TodoActions = {
    */
 TodoActions.register = function(updates) {
   /**
-   * @desc Add new todo to todos.
+   * @desc Add new todo to todos list.
    */
   this.createTodo$
   .map(task => {
@@ -144,8 +144,16 @@ TodoActions.register = function(updates) {
   .map(todo => {
     return state => {
       return state.update(KeyConstants.TODOS, todos => {
-        const index = todos.indexOf(todo);
+        let index = todos.indexOf(todo);
+
+        if (typeof todo === 'string') {
+          index = todos.findIndex(item => {
+            return item.get('task') === todo;
+          });
+        }
+
         return todos.update(index, (todo) => todo.set('willDelete', true));
+
       });
     };
   })

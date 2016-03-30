@@ -14,7 +14,7 @@ export const KeyConstants = {
 
 /**
  * State
- * @desc Contains keys for state object.
+ * @desc Store which expose 2 streams.
  * @type {Function}
  */
 export function State() {
@@ -29,6 +29,7 @@ export function State() {
   /**
    * @desc `updates` property is a BehaviorSubject which
    * represents a value the changes over time.
+   * It receives operations to be applied on the todos list.
    */
   this.updates = new Rx.BehaviorSubject(Immutable.fromJS(initial));
 
