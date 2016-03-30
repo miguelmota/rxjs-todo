@@ -59,6 +59,12 @@ requests.saveTodos$
 })
 // Create or update todos in database.
 .map(([event, todos]) => {
+  if (!Array.isArray(todos)) {
+    return event.response.json(400, {
+      error: '`todos` must be an array.'
+    });
+  }
+
   const sources = todos.map(todo => TodoActions.createOrUpdateTodo(todo));
   return Rx.Observable.forkJoin(sources, () => [event, todos]);
 })

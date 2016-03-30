@@ -5,7 +5,7 @@
   "main": "app/app.js",
   "scripts": {
     "start": "babel-node --presets es2015 ./app/bin/www",
-    "test": "./node_modules/tape/bin/tape test/*.js"
+    "test": "babel-node ./test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -45,6 +45,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-sass": "^2.2.0",
     "gulp-watch": "^4.3.5",
+    "supertest": "^1.2.0",
     "tape": "^3.6.1",
     "vinyl-source-stream": "^1.1.0"
   },
