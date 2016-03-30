@@ -4,12 +4,6 @@
 
 <img src="./screenshot.png" width="500">
 
-<!--
-# Demo
-
-[http://lab.moogs.io/rx-todo](http://lab.moogs.io/rx-todo)
--->
-
 # Running
 
 To see it in action follow these steps:
