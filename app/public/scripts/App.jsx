@@ -12,6 +12,7 @@ import {Footer} from './Footer.jsx';
  * App
  * @desc View containing the application.
  * @type {Function}
+ * @memberof client/views
  */
 export function App({props, createEventHandler}) {
   const {state} = props;

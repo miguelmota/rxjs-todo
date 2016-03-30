@@ -9,6 +9,7 @@ import {TodoActions} from './actions/TodoActions';
  * Header
  * @desc View containing the header.
  * @type {Function}
+ * @memberof client/views
  */
 export function Header({createEventHandler}) {
   const handleSubmit$ = createEventHandler(event => event.preventDefault())

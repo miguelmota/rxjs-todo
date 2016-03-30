@@ -10,6 +10,7 @@ import {generateId} from './generateId'
  * @type {Function}
  * @param {String} task - task value
  * @return {Map} - immutable Map
+ * @memberof client/utils
  */
 export function createTodo(task) {
   return Immutable.fromJS({
@@ -28,6 +29,7 @@ export function createTodo(task) {
  * @param {Number} todo.id - task ID
  * @param {Boolean} todo.willDelete - deletion flag
  * @return {Map} - immutable Map
+ * @memberof client/utils
  */
 export function createTodoFromObject(todo) {
   const {id, task, willDelete} = todo;

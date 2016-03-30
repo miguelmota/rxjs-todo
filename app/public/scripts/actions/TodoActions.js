@@ -11,29 +11,33 @@ import {API_Endpoints} from '../constants/ApiEndpoints';
 
 /**
  * TodoActions
- * @desc Enum containing actions for todo items.
+ * @desc Object containing actions for todo items.
  * Rx.Subject represents an object that is both an observable and observer.
+ * @namespace client/actions/TodoActions
  * @type {Object}
  */
 export const TodoActions = {
   /**
-   * createTodo$
+   * @method createTodo$
    * @desc Creates a local todo.
    * @type {Observable}
+   * @memberof client/actions/TodoActions
    */
   createTodo$: new Rx.Subject(),
 
   /**
-   * deleteTodo$
+   * @method deleteTodo$
    * @desc Marks local todo for deletion.
    * @type {Observable}
+   * @memberof client/actions/TodoActions
    */
   deleteTodo$: new Rx.Subject(),
 
   /**
-   * updateTodo$
+   * @method updateTodo$
    * @desc Updates local todo value.
    * @type {Observable}
+   * @memberof client/actions/TodoActions
    */
   updateTodo$: new Rx.Subject(),
 
@@ -45,9 +49,10 @@ export const TodoActions = {
   loadTodo$: new Rx.Subject(),
 
   /**
-   * fetchTodos$
+   * @method fetchTodos$
    * @desc Fetches todos from server.
    * @type {Observable}
+   * @memberof client/actions/TodoActions
    */
   fetchTodos$: Rx.Observable.create((observable) => {
     Rx.DOM.get({
@@ -72,11 +77,12 @@ export const TodoActions = {
   }),
 
   /**
-   * saveTodos$
+   * @method saveTodos$
    * @desc Saves todos to server.
    * @type {Function}
    * @param {Array} todos - list of todos
    * @return {Observable}
+   * @memberof client/actions/TodoActions
    */
   saveTodos$: (todos) => {
     return Rx.DOM.post({
@@ -90,11 +96,12 @@ export const TodoActions = {
   },
 
   /**
-   * deleteTodos$
+   * @method deleteTodos$
    * @desc Deletes todos from server.
    * @type {Function}
    * @param {Array} todoIds - list of todos IDs
    * @return {Observable}
+   * @memberof client/actions/TodoActions
    */
   deleteTodos$: (todoIds) => {
     return Rx.DOM.ajax({
@@ -109,12 +116,13 @@ export const TodoActions = {
   }
 };
 
-  /**
-   * TodoActions.register
-   * @desc Register
-   * @type {Function}
-   * @param {Function} updates
-   */
+/**
+ * @method register
+ * @desc Takes in an observer that gets with an action.
+ * @type {Observer}
+ * @param {Function} updates - Observer
+ * @memberof client/actions/TodoActions
+ */
 TodoActions.register = function(updates) {
   /**
    * @desc Add new todo to todos list.

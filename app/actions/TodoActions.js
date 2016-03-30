@@ -3,16 +3,18 @@
 const models = require('../models');
 
 /**
- * TodoAction
+ * TodoActions
  * @desc Contains todo actions.
+ * @namespace server/actions/TodoActions
  * @type {Object}
  */
 const TodoActions = {
   /**
-   * getTodos
+   * @method getTodos
    * @desc Returns todos from database.
    * @type {Function}
    * @return {Promise}
+   * @memberof server/actions/TodoActions
    */
   getTodos() {
     return models.Todo.findAll()
@@ -22,7 +24,7 @@ const TodoActions = {
   },
 
   /**
-   * createOrUpdateTodo
+   * @method createOrUpdateTodo
    * @desc Creates a new todo, or updates the todo if
    * it already exists based on ID.
    * @type {Function}
@@ -30,6 +32,7 @@ const TodoActions = {
    * @param {String} todo.task - todo task value
    * @param {Number} [todo.id] - todo id
    * @return {Promise}
+   * @memberof server/actions/TodoActions
    */
   createOrUpdateTodo(todo) {
     const {task, id} = todo;
@@ -41,11 +44,12 @@ const TodoActions = {
   },
 
   /**
-   * deleteTodo
+   * @method deleteTodo
    * @desc Deletes todo from database.
    * @type {Function}
    * @param {Number} id - todo ID
    * @return {Promise}
+   * @memberof server/actions/TodoActions
    */
   deleteTodo(id) {
     return models.Todo.destroy({

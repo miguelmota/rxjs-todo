@@ -1,0 +1,4 @@
+/**
+ * stores
+ * @namespace client/stores
+ */

@@ -8,6 +8,9 @@ import {State} from '../../app/public/scripts/stores/State';
 const state = new State();
 TodoActions.register(state.updates);
 
+/**
+ * @test Todo Actions
+ */
 test('Todo Actions', (t) => {
   t.plan(12);
 

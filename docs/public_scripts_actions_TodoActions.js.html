@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: public/scripts/actions/TodoActions.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: public/scripts/actions/TodoActions.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+import Rx from 'rx';
+import Immutable from 'immutable';
+import RxDOM from 'rx-dom';
+
+import {KeyConstants} from '../stores/State';
+import {createTodo, createTodoFromObject} from '../utils/createTodo';
+import {isTodoUnique} from '../utils/isTodoUnique';
+import {API_Endpoints} from '../constants/ApiEndpoints';
+
+/**
+ * TodoActions
+ * @desc Object containing actions for todo items.
+ * Rx.Subject represents an object that is both an observable and observer.
+ * @namespace client/actions/TodoActions
+ * @type {Object}
+ */
+export const TodoActions = {
+  /**
+   * @method createTodo$
+   * @desc Creates a local todo.
+   * @type {Observable}
+   * @memberof client/actions/TodoActions
+   */
+  createTodo$: new Rx.Subject(),
+
+  /**
+   * @method deleteTodo$
+   * @desc Marks local todo for deletion.
+   * @type {Observable}
+   * @memberof client/actions/TodoActions
+   */
+  deleteTodo$: new Rx.Subject(),
+
+  /**
+   * @method updateTodo$
+   * @desc Updates local todo value.
+   * @type {Observable}
+   * @memberof client/actions/TodoActions
+   */
+  updateTodo$: new Rx.Subject(),
+
+  /**
+   * loadTodo$
+   * @desc Loads a local todo when todo ID is known.
+   * @type {Observable}
+   */
+  loadTodo$: new Rx.Subject(),
+
+  /**
+   * @method fetchTodos$
+   * @desc Fetches todos from server.
+   * @type {Observable}
+   * @memberof client/actions/TodoActions
+   */
+  fetchTodos$: Rx.Observable.create((observable) => {
+    Rx.DOM.get({
+      url: API_Endpoints.TODOS,
+      responseType: 'json'
+    })
+    .subscribe(xhr => {
+      const {response} = xhr;
+      const {error} = response;
+      const {todos} = response.data;
+
+      if (error) {
+        console.error(error);
+        observable.onError(error);
+      }
+
+      const todos$ = Rx.Observable.fromArray(todos)
+       .map(todo => new Rx.BehaviorSubject(todo));
+
+       observable.onNext(todos$);
+    });
+  }),
+
+  /**
+   * @method saveTodos$
+   * @desc Saves todos to server.
+   * @type {Function}
+   * @param {Array} todos - list of todos
+   * @return {Observable}
+   * @memberof client/actions/TodoActions
+   */
+  saveTodos$: (todos) => {
+    return Rx.DOM.post({
+      url: API_Endpoints.TODOS,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      responseType: 'json',
+      body: JSON.stringify({todos: todos})
+    });
+  },
+
+  /**
+   * @method deleteTodos$
+   * @desc Deletes todos from server.
+   * @type {Function}
+   * @param {Array} todoIds - list of todos IDs
+   * @return {Observable}
+   * @memberof client/actions/TodoActions
+   */
+  deleteTodos$: (todoIds) => {
+    return Rx.DOM.ajax({
+      method: 'DELETE',
+      url: API_Endpoints.TODOS,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      responseType: 'json',
+      body: JSON.stringify({todos: todoIds})
+    });
+  }
+};
+
+/**
+ * @method register
+ * @desc Takes in an observer that gets with an action.
+ * @type {Observer}
+ * @param {Function} updates - Observer
+ * @memberof client/actions/TodoActions
+ */
+TodoActions.register = function(updates) {
+  /**
+   * @desc Add new todo to todos list.
+   */
+  this.createTodo$
+  .map(task => {
+    const todo = createTodo(task);
+    return state => {
+      const todos = state.get(KeyConstants.TODOS);
+      const isUnique = isTodoUnique(todos, task);
+
+      if (isUnique) {
+        return state.update(KeyConstants.TODOS, todos => todos.unshift(todo));
+      } else {
+        // temporary, need to return error
+        alert('Item already exists.');
+        return state;
+      }
+    };
+  })
+  .subscribe(updates);
+
+  /**
+   * @desc Mark todo for deletion.
+   */
+  this.deleteTodo$
+  .map(todo => {
+    return state => {
+      return state.update(KeyConstants.TODOS, todos => {
+        let index = todos.indexOf(todo);
+
+        if (typeof todo === 'string') {
+          index = todos.findIndex(item => {
+            return item.get('task') === todo;
+          });
+        }
+
+        return todos.update(index, (todo) => todo.set('willDelete', true));
+
+      });
+    };
+  })
+  .subscribe(updates);
+
+  /**
+   * @desc Update todo value.
+   */
+  this.updateTodo$
+  .map(([todo, task]) => {
+    return state => {
+      return state.update(KeyConstants.TODOS, todos => {
+        const index = todos.indexOf(todo);
+        return todos.set(index, todo.set('task', task))
+      })
+    };
+  })
+  .subscribe(updates);
+
+  /**
+   * @desc Add existing todo to todos list.
+   */
+  this.loadTodo$
+  .map(task => {
+    const todo = createTodoFromObject(task);
+    return state => {
+      const todos = state.get(KeyConstants.TODOS);
+      return state.update(KeyConstants.TODOS, todos => todos.unshift(todo));
+    };
+  })
+  .subscribe(updates);
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Represents%2520a%2520join%2520pattern%2520over%2520observable%2520sequences..html">Represents a join pattern over observable sequences.</a></li></ul><h3>Namespaces</h3><ul><li><a href="client_actions.html">client/actions</a></li><li><a href="client_actions_TodoActions.html">client/actions/TodoActions</a></li><li><a href="client_constants.html">client/constants</a></li><li><a href="client_stores.html">client/stores</a></li><li><a href="client_stores_State.html">client/stores/State</a></li><li><a href="client_utils.html">client/utils</a></li><li><a href="client_views.html">client/views</a></li><li><a href="server_actions_TodoActions.html">server/actions/TodoActions</a></li><li><a href="server_app.html">server/app</a></li><li><a href="server_models.html">server/models</a></li><li><a href="server_utils.html">server/utils</a></li></ul><h3>Global</h3><ul><li><a href="global.html#asArrayBuffer">asArrayBuffer</a></li><li><a href="global.html#asBinaryString">asBinaryString</a></li><li><a href="global.html#asDataURL">asDataURL</a></li><li><a href="global.html#asText">asText</a></li><li><a href="global.html#dispose">dispose</a></li><li><a href="global.html#getValue">getValue</a></li><li><a href="global.html#handleError">handleError</a></li><li><a href="global.html#hasObservers">hasObservers</a></li><li><a href="global.html#KeyConstants">KeyConstants</a></li><li><a href="global.html#onCompleted">onCompleted</a></li><li><a href="global.html#onError">onError</a></li><li><a href="global.html#onNext">onNext</a></li><li><a href="global.html#requests">requests</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Mar 30 2016 12:17:12 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

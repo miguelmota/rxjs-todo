@@ -1,0 +1,4 @@
+/**
+ * constants
+ * @namespace client/constants
+ */

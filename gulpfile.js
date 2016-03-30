@@ -61,6 +61,9 @@ gulp.task('watch', function() {
   gulp.watch('./app/public/styles/**/*.scss', ['sass']);
 });
 
+/**
+ * @desc Build task.
+ */
 gulp.task('build', ['scripts', 'sass', 'move']);
 
 /**

@@ -8,6 +8,7 @@ import {TodoItem} from './TodoItem.jsx';
  * TodoList
  * @desc View containing the todo list.
  * @type {Function}
+ * @memberof client/views
  */
 export function TodoList({props}) {
   const {todos} = props;

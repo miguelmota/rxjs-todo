@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Models
+ * @namespace server/models
+ */
+
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -21,7 +26,10 @@ const db = {};
 const model = sequelize.import(path.join(__dirname, 'todo.js'));
 
 /**
- * @desc Set up object containing all the Sequelize models.
+ * db
+ * @desc Object containing all the Sequelize models.
+ * @type {Object}
+ * @memberof server/models
  */
 db[model.name] = model;
 

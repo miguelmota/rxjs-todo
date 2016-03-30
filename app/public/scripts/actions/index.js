@@ -1,0 +1,4 @@
+/**
+ * actions
+ * @namespace client/actions
+ */

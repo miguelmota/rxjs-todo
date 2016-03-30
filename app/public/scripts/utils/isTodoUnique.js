@@ -5,6 +5,7 @@
  * @param {Array} todos - todos list
  * @param {String} task - task value
  * @return {Boolean}
+ * @memberof client/utils
  */
 export function isTodoUnique(todos, task) {
   const tasks = todos.valueSeq().toArray();

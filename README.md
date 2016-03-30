@@ -1,6 +1,6 @@
 # Yolk/RxJS/Express/Postgres Todo App
 
-> A Todo application built on top [Yolk.js](https://github.com/garbles/yolk), [RxJS](https://github.com/Reactive-Extensions/RxJS), [Express](http://expressjs.com/), and [Postgres](http://www.postgresql.org/), which runs in [Docker](https://www.docker.com/) container.
+> A Todo application built on top of [Yolk.js](https://github.com/garbles/yolk), [RxJS](https://github.com/Reactive-Extensions/RxJS), [Express](http://expressjs.com/), and [Postgres](http://www.postgresql.org/), which runs in [Docker](https://www.docker.com/) container.
 
 <img src="./screenshot.png" width="500">
 
@@ -38,7 +38,7 @@ To see it in action follow these steps:
   $ open http://$(docker-machine ip):8080/
   ```
 
-6. Write todos.
+6. Write todos!
 
 # Development
 
@@ -62,7 +62,7 @@ Follow these steps to set up development environment.
   $ npm start
   ```
 
-5. Run [Gulp](http://gulpjs.com/) watchers to compile front-end JavaScript and Sass on save.
+5. Run [Gulp](http://gulpjs.com/) watchers to compile client JavaScript and Sass on save.
 
   ```bash
   $ cd app/public/
@@ -92,14 +92,20 @@ Follow these steps to set up development environment.
 6. Open app url in browser.
 
   ```bash
-  open http://localhost:8080/
+  $ open http://localhost:8080/
   ```
 
 # Test
 
-  ```bash
-  $ npm test
-  ```
+```bash
+$ npm test
+```
+
+# Docs
+
+```bash
+$ npm run docs
+```
 
 # License
 

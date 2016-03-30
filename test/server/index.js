@@ -6,6 +6,9 @@ const async = require('async');
 
 const app = require('../../app/app');
 
+/**
+ * @test Server
+ */
 test('Server', (t) => {
   t.plan(11);
 

@@ -6,6 +6,7 @@
  * @param {String|Number} value - value to normalize
  * @type {Function}
  * @return {Number} normalized port number
+ * @memberof server/utils
  */
 function normalizePort(value) {
   const port = parseInt(value, 10);

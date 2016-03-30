@@ -11,6 +11,7 @@ import {TodoActions} from './actions/TodoActions';
  * Footer
  * @desc View containing the footer.
  * @type {Function}
+ * @memberof client/views
  */
 export function Footer({props, createEventHandler}) {
   const {todos} = props;

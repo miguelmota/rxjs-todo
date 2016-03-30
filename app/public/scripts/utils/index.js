@@ -1,0 +1,4 @@
+/**
+ * utils
+ * @namespace client/utils
+ */

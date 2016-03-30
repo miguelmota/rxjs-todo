@@ -9,6 +9,7 @@ import {TodoActions} from './actions/TodoActions';
  * TodoItem
  * @desc View containing the todo item.
  * @type {Function}
+ * @memberof client/views
  */
 export function TodoItem({props, createEventHandler}) {
   const {todo} = props;
