@@ -2,11 +2,13 @@
 
 > A Todo application built on top [Yolk.js](https://github.com/garbles/yolk), [RxJS](https://github.com/Reactive-Extensions/RxJS), [Express](http://expressjs.com/), and [Postgres](http://www.postgresql.org/), which runs in [Docker](https://www.docker.com/) container.
 
-<img src="./screenshot.png">
+<img src="./screenshot.png" width="500">
 
+<!--
 # Demo
 
 [http://lab.moogs.io/rx-todo](http://lab.moogs.io/rx-todo)
+-->
 
 # Running
 
