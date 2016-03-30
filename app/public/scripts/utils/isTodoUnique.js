@@ -8,5 +8,5 @@
  */
 export function isTodoUnique(todos, task) {
   const tasks = todos.valueSeq().toArray();
-  return tasks.every(map => map.get('task') !== task);
+  return tasks.every(item => item.get('willDelete') || item.get('task') !== task);
 }

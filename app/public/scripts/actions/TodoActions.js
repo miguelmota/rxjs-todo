@@ -74,9 +74,39 @@ export const TodoActions = {
   /**
    * saveTodos$
    * @desc Saves todos to server.
-   * @type {Observable}
+   * @type {Function}
+   * @param {Array} todos - list of todos
+   * @return {Observable}
    */
-  saveTodos$: new Rx.Subject()
+  saveTodos$: (todos) => {
+    return Rx.DOM.post({
+      url: API_Endpoints.TODOS,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      responseType: 'json',
+      body: JSON.stringify({todos: todos})
+    });
+  },
+
+  /**
+   * deleteTodos$
+   * @desc Deletes todos from server.
+   * @type {Function}
+   * @param {Array} todoIds - list of todos IDs
+   * @return {Observable}
+   */
+  deleteTodos$: (todoIds) => {
+    return Rx.DOM.ajax({
+      method: 'DELETE',
+      url: API_Endpoints.TODOS,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      responseType: 'json',
+      body: JSON.stringify({todos: todoIds})
+    });
+  }
 };
 
   /**
@@ -85,7 +115,7 @@ export const TodoActions = {
    * @type {Function}
    * @param {Function} updates
    */
-TodoActions.register = function (updates) {
+TodoActions.register = function(updates) {
   /**
    * @desc Add new todo to todos.
    */
@@ -99,6 +129,7 @@ TodoActions.register = function (updates) {
       if (isUnique) {
         return state.update(KeyConstants.TODOS, todos => todos.unshift(todo));
       } else {
+        // temporary, need to return error
         alert('Item already exists.');
         return state;
       }
@@ -146,6 +177,4 @@ TodoActions.register = function (updates) {
     };
   })
   .subscribe(updates);
-
-  //this.saveTodos$.
 };

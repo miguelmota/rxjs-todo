@@ -20265,7 +20265,7 @@ html.ios, html.ios body {
     transform: scale3d(1.05, 0.95, 1); } }
 
 #app {
-  padding: 50px 0; }
+  padding: 100px 10px 50px 10px; }
 
 .label .ui.input input {
   border: none;

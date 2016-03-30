@@ -34,17 +34,24 @@ const TodoActions = {
   createOrUpdateTodo(todo) {
     const {task, id} = todo;
 
-    return models.Todo.findOrCreate({
-      where: {id},
-      defaults: {id, task}
-    }).spread((result, isCreated)  => {
-      if (!isCreated) {
-        return models.Todo.update({task}, {where: {id}});
-      }
+    return models.Todo.upsert(
+      {id, task},
+      {where: {id}
+    }).then(todo => todo);
+  },
 
-      return todo;
-    });
-  }
+  /**
+   * deleteTodo
+   * @desc Deletes todo from database.
+   * @type {Function}
+   * @param {Number} id - todo ID
+   * @return {Promise}
+   */
+  deleteTodo(id) {
+    return models.Todo.destroy({
+      where: {id}
+    }).then(() => id);
+  },
 };
 
 module.exports = TodoActions;

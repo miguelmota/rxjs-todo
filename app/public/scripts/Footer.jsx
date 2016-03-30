@@ -5,6 +5,7 @@ import Rx from 'rx';
 import RxDOM from 'rx-dom';
 
 import {API_Endpoints} from './constants/ApiEndpoints';
+import {TodoActions} from './actions/TodoActions';
 
 /**
  * Footer
@@ -25,44 +26,16 @@ export function Footer({props, createEventHandler}) {
     const toSaveTodos = todos.filter(todo => !todo.willDelete);
     const toDeleteTodoIds = todos.filter(todo => todo.willDelete).map(todo => todo.id);
 
-    Rx.DOM.post({
-      url: API_Endpoints.TODOS,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      responseType: 'json',
-      body: JSON.stringify({todos: toSaveTodos})
-    })
+    // Make ajax calls to save and delete todos.
+    TodoActions.saveTodos$(toSaveTodos)
+    .merge(TodoActions.deleteTodos$(toDeleteTodoIds))
     .subscribe(xhr => {
       const {response} = xhr;
-      console.log('DATA', response);
 
       isSaving$.onNext(false);
 
       if (response.error) {
         console.error(response.error);
-      } else {
-
-      }
-    });
-
-    Rx.DOM.ajax({
-      method: 'delete',
-      url: API_Endpoints.TODOS,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      responseType: 'json',
-      body: JSON.stringify({todos: toDeleteTodoIds})
-    })
-    .subscribe(xhr => {
-      const {response} = xhr;
-      console.log('DATA', response);
-
-      if (response.error) {
-        console.error(response.error);
-      } else {
-
       }
     });
   });

@@ -2,6 +2,12 @@
 
 > A Todo application built on top [Yolk.js](https://github.com/garbles/yolk), [RxJS](https://github.com/Reactive-Extensions/RxJS), [Express](http://expressjs.com/), and [Postgres](http://www.postgresql.org/), which runs in [Docker](https://www.docker.com/) container.
 
+<img src="./screenshot.png">
+
+# Demo
+
+[http://lab.moogs.io/rx-todo](http://lab.moogs.io/rx-todo)
+
 # Running
 
 To see it in action follow these steps:
@@ -18,7 +24,7 @@ To see it in action follow these steps:
 
   ```bash
 # Start docker daemon
-  $ eval "$(docker-machine env default)"¬
+  $ eval "$(docker-machine env default)"
 
 # Build
   $ docker-compose build
