@@ -42,9 +42,10 @@ export const TodoActions = {
   updateTodo$: new Rx.Subject(),
 
   /**
-   * loadTodo$
+   * @method loadTodo$
    * @desc Loads a local todo when todo ID is known.
    * @type {Observable}
+   * @memberof client/actions/TodoActions
    */
   loadTodo$: new Rx.Subject(),
 

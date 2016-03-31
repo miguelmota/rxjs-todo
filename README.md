@@ -109,4 +109,4 @@ $ npm run docs
 
 # License
 
-MIt.
+MIT.
