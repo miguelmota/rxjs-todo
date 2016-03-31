@@ -40,7 +40,7 @@ const TodoActions = {
     return models.Todo.upsert(
       {id, task},
       {where: {id}
-    }).then(todo => todo);
+    });
   },
 
   /**
@@ -55,7 +55,7 @@ const TodoActions = {
     return models.Todo.destroy({
       where: {id}
     }).then(() => id);
-  },
+  }
 };
 
 module.exports = TodoActions;
