@@ -54,6 +54,8 @@ Follow these steps to set up development environment.
   $ npm install
   $ npm install babel-cli -g
   $ npm install gulp-cli -g
+  $ npm install browserify -g
+  $ npm install mocha-phantomjs -g
   ```
 
 4. Run Express server.

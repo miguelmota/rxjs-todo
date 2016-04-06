@@ -36,7 +36,7 @@ export function Header({createEventHandler}) {
       <h1 className="ui"><i className="icon list layout"></i> Todos</h1>
       <form onSubmit={handleSubmit$} className="ui">
         <div className="ui action fluid input">
-          <input placeholder="What to do?" autoFocus={true} onChange={handleChange$} value={displayValue$} />
+          <input placeholder="What to do?" autoFocus={true} onInput={handleChange$} value={displayValue$} />
           <button onClick={handleSubmit$} type="submit" className="ui green button">
             <i className="icon add circle"></i> Add
           </button>
