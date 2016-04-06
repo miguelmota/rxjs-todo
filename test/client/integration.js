@@ -11,10 +11,12 @@ describe('Todo Integration Tests', () => {
   it('Fills out input and clicks add button', (done) => {
     const $input = $('header form input', document);
     const $addTodoButton = $('header button[type="submit"]', document);
-    const event = document.createEvent('HTMLEvents');
-    event.initEvent('input', false, true);
 
     $input.val(taskName);
+
+    // Trigger `input` change event.
+    const event = document.createEvent('HTMLEvents');
+    event.initEvent('input', false, true);
     $input[0].dispatchEvent(event)
 
     assert.equal($input.val(), taskName);
