@@ -7812,15 +7812,15 @@ var assert = require('chai').assert;
 */
 describe('Todo Integration Tests', function () {
   var taskName = 'Foo';
+  var edittedTaskName = 'Foobar';
 
   it('Fills out input and clicks add button', function (done) {
     var $input = $('header form input', document);
     var $addTodoButton = $('header button[type="submit"]', document);
-    var event = document.createEvent('HTMLEvents');
-    event.initEvent('input', false, true);
 
     $input.val(taskName);
-    $input[0].dispatchEvent(event);
+
+    triggerInputChange($input[0]);
 
     assert.equal($input.val(), taskName);
     $addTodoButton.click();
@@ -7830,11 +7830,31 @@ describe('Todo Integration Tests', function () {
   it('List contains new todo item', function (done) {
     var $input = $('header form input', document);
     var $items = $('.segments .segment', document);
-    var $item = $items.find('input').eq(0);
+    var $item = $items.find('.label input').eq(0);
 
     assert.equal($items.length, 1);
     assert.equal($input.val(), '');
     assert.equal($item.val(), taskName);
+    done();
+  });
+
+  it('Edit todo', function (done) {
+    var $items = $('.segments .segment', document);
+    var $editButton = $items.find('.label button').eq(0);
+    var $doneButton = $items.find('.edit button').eq(0);
+    var $input = $items.find('.edit input').eq(0);
+
+    assert.equal($input.val(), taskName);
+
+    $editButton.click();
+    $input.val(edittedTaskName);
+
+    triggerInputChange($input[0]);
+
+    $doneButton.click();
+    var $item = $items.find('.label input').eq(0);
+
+    assert.equal($item.val(), edittedTaskName);
     done();
   });
 
@@ -7851,5 +7871,12 @@ describe('Todo Integration Tests', function () {
     done();
   });
 });
+
+function triggerInputChange(inputElement) {
+  // Trigger `input` change event.
+  var event = document.createEvent('HTMLEvents');
+  event.initEvent('input', false, true);
+  inputElement.dispatchEvent(event);
+}
 
 },{"chai":5}]},{},[41]);

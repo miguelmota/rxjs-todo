@@ -49,7 +49,7 @@ export function TodoItem({props, createEventHandler}) {
     <div className={classNames}>
       <section className="edit">
         <div className="ui action fluid input">
-          <input type="text" onChange={handleInputChange$} value={task} />
+          <input type="text" onInput={handleInputChange$} value={task} />
           <button type="submit" onClick={handleSubmit$} className="ui primary button">
             <i className="icon check circle"></i> Done
           </button>

@@ -15,10 +15,7 @@ describe('Todo Integration Tests', () => {
 
     $input.val(taskName);
 
-    // Trigger `input` change event.
-    const event = document.createEvent('HTMLEvents');
-    event.initEvent('input', false, true);
-    $input[0].dispatchEvent(event)
+    triggerInputChange($input[0]);
 
     assert.equal($input.val(), taskName);
     $addTodoButton.click();
@@ -42,15 +39,12 @@ describe('Todo Integration Tests', () => {
     const $doneButton = $items.find('.edit button').eq(0);
     const $input = $items.find('.edit input').eq(0);
 
-    assert.equal($items.length, 1);
     assert.equal($input.val(), taskName);
 
+    $editButton.click();
     $input.val(edittedTaskName);
 
-    // Trigger `input` change event.
-    const event = document.createEvent('HTMLEvents');
-    event.initEvent('input', false, true);
-    $input[0].dispatchEvent(event)
+    triggerInputChange($input[0]);
 
     $doneButton.click();
     const $item = $items.find('.label input').eq(0);
@@ -72,3 +66,10 @@ describe('Todo Integration Tests', () => {
     done();
   });
 });
+
+function triggerInputChange(inputElement) {
+  // Trigger `input` change event.
+  const event = document.createEvent('HTMLEvents');
+  event.initEvent('input', false, true);
+  inputElement.dispatchEvent(event);
+}
