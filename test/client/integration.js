@@ -7,6 +7,7 @@ const assert = require('chai').assert;
 */
 describe('Todo Integration Tests', () => {
   const taskName = 'Foo';
+  const edittedTaskName = 'Foobar';
 
   it('Fills out input and clicks add button', (done) => {
     const $input = $('header form input', document);
@@ -27,11 +28,34 @@ describe('Todo Integration Tests', () => {
   it('List contains new todo item', (done) => {
     const $input = $('header form input', document);
     const $items = $('.segments .segment', document);
-    const $item = $items.find('input').eq(0);
+    const $item = $items.find('.label input').eq(0);
 
     assert.equal($items.length, 1);
     assert.equal($input.val(), '');
     assert.equal($item.val(), taskName);
+    done();
+  });
+
+  it('Edit todo', (done) => {
+    const $items = $('.segments .segment', document);
+    const $editButton = $items.find('.label button').eq(0);
+    const $doneButton = $items.find('.edit button').eq(0);
+    const $input = $items.find('.edit input').eq(0);
+
+    assert.equal($items.length, 1);
+    assert.equal($input.val(), taskName);
+
+    $input.val(edittedTaskName);
+
+    // Trigger `input` change event.
+    const event = document.createEvent('HTMLEvents');
+    event.initEvent('input', false, true);
+    $input[0].dispatchEvent(event)
+
+    $doneButton.click();
+    const $item = $items.find('.label input').eq(0);
+
+    assert.equal($item.val(), edittedTaskName);
     done();
   });
 
