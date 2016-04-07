@@ -18,6 +18,11 @@ export function Footer({props, createEventHandler}) {
   const handleSave$ = createEventHandler();
   const isSaving$ = new Rx.BehaviorSubject(false);
 
+  // Set loading state when saving.
+  handleSave$
+  .map(() => true)
+  .subscribe(isSaving$);
+
   handleSave$
   .withLatestFrom(todos, (handleDave, todos) => {
     return todos.valueSeq().toArray().map(map => map.toObject());
@@ -40,11 +45,6 @@ export function Footer({props, createEventHandler}) {
       }
     });
   });
-
-  // Set loading state when saving.
-  handleSave$
-  .map(() => true)
-  .subscribe(isSaving$);
 
   const classNames = [
     isSaving$.map(ok => ok ? `loading` : ``),

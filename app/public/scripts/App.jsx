@@ -19,10 +19,9 @@ export function App({props, createEventHandler}) {
   const todos = state.map(s => s.get(`todos`));
 
   // Fetch todos and add them to the list.
-  /*TodoActions.fetchTodos$.forEach(todo$ => todo$.subscribe(
+  TodoActions.fetchTodos$.delay(1).forEach(todo$ => todo$.subscribe(
     t$ => t$.subscribe(TodoActions.loadTodo$))
   );
-*/
 
   return (
     <div className="ui container">

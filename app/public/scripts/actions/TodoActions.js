@@ -9,6 +9,8 @@ import {createTodo, createTodoFromObject} from '../utils/createTodo';
 import {isTodoUnique} from '../utils/isTodoUnique';
 import {API_Endpoints} from '../constants/ApiEndpoints';
 
+const USE_LOCAL_STORAGE = false;
+
 /**
  * TodoActions
  * @desc Object containing actions for todo items.
@@ -56,25 +58,33 @@ export const TodoActions = {
    * @memberof client/actions/TodoActions
    */
   fetchTodos$: Rx.Observable.create((observable) => {
-    Rx.DOM.get({
-      url: API_Endpoints.TODOS,
-      responseType: 'json'
-    })
-    .subscribe(xhr => {
-      const {response} = xhr;
-      const {error} = response;
-      const {todos} = response.data;
+    if (USE_LOCAL_STORAGE) {
+      const todos = localStorage.getItem(KeyConstants.TODOS);
+      const todos$ = Rx.Observable.fromArray(JSON.parse(todos))
+         .map(todo => new Rx.BehaviorSubject(todo));
 
-      if (error) {
-        console.error(error);
-        observable.onError(error);
-      }
+      observable.onNext(todos$);
+    } else {
+      Rx.DOM.get({
+        url: API_Endpoints.TODOS,
+        responseType: 'json'
+      })
+      .subscribe(xhr => {
+        const {response} = xhr;
+        const {error} = response;
+        const {todos} = response.data;
 
-      const todos$ = Rx.Observable.fromArray(todos)
-       .map(todo => new Rx.BehaviorSubject(todo));
+        if (error) {
+          console.error(error);
+          observable.onError(error);
+        }
 
-       observable.onNext(todos$);
-    });
+        const todos$ = Rx.Observable.fromArray(todos)
+         .map(todo => new Rx.BehaviorSubject(todo));
+
+         observable.onNext(todos$);
+      });
+    }
   }),
 
   /**
@@ -86,14 +96,21 @@ export const TodoActions = {
    * @memberof client/actions/TodoActions
    */
   saveTodos$: (todos) => {
-    return Rx.DOM.post({
-      url: API_Endpoints.TODOS,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      responseType: 'json',
-      body: JSON.stringify({todos: todos})
-    });
+    if (USE_LOCAL_STORAGE) {
+      localStorage.setItem(KeyConstants.TODOS, JSON.stringify(todos));
+      return Rx.Observable.return({response: {
+        data: todos
+      }});
+    } else {
+      return Rx.DOM.post({
+        url: API_Endpoints.TODOS,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        responseType: 'json',
+        body: JSON.stringify({todos: todos})
+      });
+    }
   },
 
   /**
@@ -105,15 +122,34 @@ export const TodoActions = {
    * @memberof client/actions/TodoActions
    */
   deleteTodos$: (todoIds) => {
-    return Rx.DOM.ajax({
-      method: 'DELETE',
-      url: API_Endpoints.TODOS,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      responseType: 'json',
-      body: JSON.stringify({todos: todoIds})
-    });
+    if (USE_LOCAL_STORAGE) {
+      const todos = JSON.parse(localStorage.getItem(KeyConstants.TODOS)) || [];
+
+      const newTodos = todos.filter(todo => {
+        let shouldFilter = false;
+
+        todoIds.forEach(todoId => {
+          shouldFilter = (todos.id === todoId);
+        });
+
+        return shouldFilter;
+      });
+
+      //localStorage.setItem(KeyConstants.TODOS, JSON.stringify(newTodos));
+      return Rx.Observable.return({response: {
+        data: todoIds
+      }});
+    } else {
+      return Rx.DOM.ajax({
+        method: 'DELETE',
+        url: API_Endpoints.TODOS,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        responseType: 'json',
+        body: JSON.stringify({todos: todoIds})
+      });
+    }
   }
 };
 
