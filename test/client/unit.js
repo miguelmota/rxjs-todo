@@ -16,11 +16,10 @@ test('Todo Actions', (t) => {
 
   const tasks = ['foo','bar','baz'];
 
-  let iteration = 0;
   let count = 0;
 
   state.asObservable
-  .subscribe(state => {
+  .map((state, iteration) => {
     const todos = state.get('todos');
 
     if (iteration > 0 && iteration <= 3) {
@@ -30,7 +29,7 @@ test('Todo Actions', (t) => {
       t.equal(todos.filter(todo => todo.get('willDelete')).count(), count);
       t.equal(todos.filter(todo => todo.get('willDelete')).first().get('task'), tasks[count - 1]);
     }
-  });
+  }).subscribe();
 
   loopTasks(task => {
     new Rx.BehaviorSubject(task)
@@ -46,7 +45,7 @@ test('Todo Actions', (t) => {
     count = 0;
 
     tasks.forEach(t => {
-      iteration++; count++;
+      count++;
       callback(t)
     });
   }
